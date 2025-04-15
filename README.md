@@ -65,9 +65,9 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 - Output: Compatibility score (0–1)
 
 ---
-## 📸 Results
+## Results
 
-### ✅ Similarity Search:
+### Similarity Search:
 - Retrieves items that match visually in **color**, **texture**, and **style**
 - Great for same-category alternatives (e.g., shirts similar to the query shirt)
 
@@ -77,7 +77,7 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 ![Similarity Search](images/similarity_output3.png)
 ---
 
-### ✅ Compatibility Recommendation:
+### Compatibility Recommendation:
 - Outputs complementary items (e.g., shoes for a dress)
 - Learns **cross-category compatibility** for coherent outfit generation
 
@@ -85,3 +85,30 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 ![Compatibility Recommendation](images/compatibility_output1.png)
 ![Compatibility Recommendation](images/compatibility_output2.png)
 ![Compatibility Recommendation](images/compatibility_output3.png)
+
+---
+
+## Model Weights
+
+The trained weights for our **Compatibility MLP** model for fast inference.
+
+- **File**: `compact_model.pt`  
+- **Location**: Stored in the `main/` directory of the repository
+
+---
+
+### Loading Pretrained Model
+
+```python
+from model import CompatibilityMLP 
+import torch
+
+# Initialize the model
+compat_model = CompatibilityMLP()
+
+# Load saved weights
+compat_model.load_state_dict(torch.load("models/compact_model.pt", map_location=torch.device('cpu')))
+
+# Set model to evaluation mode
+compat_model.eval()
+
