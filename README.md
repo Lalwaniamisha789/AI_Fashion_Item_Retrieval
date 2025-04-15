@@ -21,7 +21,7 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 
 ## Dataset
 
-- **Name**: [Polyvore Outfit Dataset (non-disjoint)](https://github.com/xthan/polyvore-dataset)
+- **Name**: [Polyvore Outfit Dataset (non-disjoint)]([https://github.com/xthan/polyvore-dataset](https://www.kaggle.com/datasets/enisteper1/polyvore-outfit-dataset))
 - **Files Used**: `train.json`, `test.json`
 - **Images**: `.jpg` files for each fashion item
 - **Outfit Format**: Each outfit is a curated group of items that go well together.
@@ -65,3 +65,23 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 - Output: Compatibility score (0–1)
 
 ---
+## 📸 Results
+
+### ✅ Similarity Search:
+- Retrieves items that match visually in **color**, **texture**, and **style**
+- Great for same-category alternatives (e.g., shirts similar to the query shirt)
+
+**Example Output:**
+![Similarity Search](images/similarity_output1.png)
+![Similarity Search](images/similarity_output2.png)
+![Similarity Search](images/similarity_output3.png)
+---
+
+### ✅ Compatibility Recommendation:
+- Outputs complementary items (e.g., shoes for a dress)
+- Learns **cross-category compatibility** for coherent outfit generation
+
+**Example Output:**
+![Compatibility Recommendation](images/compatibility_output1.png)
+![Compatibility Recommendation](images/compatibility_output2.png)
+![Compatibility Recommendation](images/compatibility_output3.png)
