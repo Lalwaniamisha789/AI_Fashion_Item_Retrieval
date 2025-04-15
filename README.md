@@ -53,7 +53,7 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 
 ## Compatibility Recommendation
 
-### ➤ Steps:
+### Steps:
 1. **Create triplets** from outfit data: `(anchor, positive, negative)`
 2. **Generate pairwise embeddings**
 3. **Train Compatibility MLP** using binary classification
