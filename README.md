@@ -75,6 +75,8 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 ![Similarity Search](images/similarity_output1.png)
 ![Similarity Search](images/similarity_output2.png)
 ![Similarity Search](images/similarity_output3.png)
+![Similarity Search](images/similarity_output4.png)
+![Similarity Search](images/similarity_output5.png)
 ---
 
 ### Compatibility Recommendation:
