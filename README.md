@@ -82,6 +82,8 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 > This paper proposes a cross-category compatibility learning model using a Siamese network architecture, Hadamard product fusion, color histograms, and a Compatibility Scoring Network trained on curated outfit data.
 
 #### 3. PolaniNet Custom Implementation:
+-Module architecture:
+![Architecture](images/Screenshot 2025-04-20 184332.png)
 -**Siamese-Merge Module**
 - Shared *VGC-16 encoder** to extract 512-d embeddings for each item
 - **Hadamard product** of embeddings is computed to capture element-wise interaction
@@ -145,6 +147,12 @@ The trained weights for both compatibility models are available for quick infere
 
 - **Compatibility MLP File**: `compact_model.pt`  
 - **Siamese Compatibility Model Files**: [Kaggle Models – PolaniaNet 5000](https://www.kaggle.com/models/amishalalwani3110/polania_5000)
+
+---
+
+##Presentations:
+1-CompatibliyMLP & Similarity search: https://github.com/Lalwaniamisha789/Fashion__Compatibility_Recommender/blob/0fad2d1c3ff461d082908a89ec4f701e0cd8590c/Presented_by_TechBandus%5B1%5D.pptx_compressed.pdf
+2- PolaniaNet: https://github.com/Lalwaniamisha789/Fashion__Compatibility_Recommender/blob/0fad2d1c3ff461d082908a89ec4f701e0cd8590c/Ivory%20Black%20Simple%20Geometric%20Research%20Project%20Presentation.pdf
 
 ---
 
