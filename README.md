@@ -125,6 +125,9 @@ Better **cross-category generalization**
 #### Compatibility MLP:
 - Learns binary compatibility from concatenated embeddings
 - Outputs a score indicating whether two items go together
+**Example Output:**
+![Compatibility Recommendation](images/compatibility_output1.png)
+![Compatibility Recommendation](images/compatibility_output2.png)
 
 #### Siamese Compatibility (PolaniaNet):
 - Learns **cross-category compatibility**
@@ -132,8 +135,6 @@ Better **cross-category generalization**
 - Significantly outperforms basic MLP for outfit-level recommendations
 
 **Example Output:**
-![Compatibility Recommendation](images/compatibility_output1.png)
-![Compatibility Recommendation](images/compatibility_output2.png)
 ![Siamese Compatibility Output](images/Siamese_Compatiblity_Output.png)
 
 ---
