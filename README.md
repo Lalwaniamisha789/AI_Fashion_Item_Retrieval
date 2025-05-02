@@ -134,7 +134,7 @@ Better **cross-category generalization**
 **Example Output:**
 ![Compatibility Recommendation](images/compatibility_output1.png)
 ![Compatibility Recommendation](images/compatibility_output2.png)
-![Siamese Compatibility Output](images/siamese_compatibility_output1.png)
+![Siamese Compatibility Output](images/Siamese_Compatiblity_Output.png)
 
 ---
 
