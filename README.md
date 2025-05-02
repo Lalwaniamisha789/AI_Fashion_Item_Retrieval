@@ -81,32 +81,42 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 
 > This paper proposes a cross-category compatibility learning model using a Siamese network architecture, Hadamard product fusion, color histograms, and a Compatibility Scoring Network trained on curated outfit data.
 
-#### 3. PolaniNet Custom Implementation:
--Module architecture:
-![Architecture](images/Screenshot 2025-04-20 184332.png)
--**Siamese-Merge Module**
-- Shared *VGC-16 encoder** to extract 512-d embeddings for each item
-- **Hadamard product** of embeddings is computed to capture element-wise interaction
+#### PolaniaNet Custom Implementation:
+
+**Architecture:**
+
+![Architecture](images/Screenshot%202025-04-20%20184332.png)
+
+- **Siamese-Merge Module**
+- Shared **VGG-16 encoder** to extract 512-d embeddings for each item
+- **Hadamard product** of embeddings to capture element-wise interaction
 - **Color histograms** (8-bin per channel RGB, 24-d vector) are extracted and concatenated
 - Final vector: `[512 ⊙ 512] + [24 ⊙ 24] = 536-d`
 - Passed through a **Metric Network**:
-  - FC1(536->256) + BatchNorm + reLU + Dropout(0.5)  
-  - FC2(256->64) + BatchNorm + reLU + Dropout(0.5)
-  - FC3(64->1)  
-- **CustomMAP loss function**: combines Binary Cross-Entropy with three regularization terms: a Matrix-Normal Prior for structured weight regularization, CNN Sparsity Prior to enforce compact filter representations, and a Classifier Sparsity Prior to enhance feature selection—altogether encouraging generalization and interpretability in compatibility learning
+  - FC1(536→256) + BatchNorm + ReLU + Dropout(0.5)  
+  - FC2(256→64) + BatchNorm + ReLU + Dropout(0.5)
+  - FC3(64→1)  
+- **CustomMAP loss function**: combines Binary Cross-Entropy with three regularization terms:
+  - Matrix-Normal Prior for structured weight regularization
+  - CNN Sparsity Prior to enforce compact filter representations
+  - Classifier Sparsity Prior to enhance feature selection  
+  Together, these promote generalization and interpretability.
+
 - Output: Compatibility score.
 
 #### Advantages Over Base MLP:
-Uses **element-wise fusion (Hadamard product)** for fine-grained compatibility  
-Incorporates **color-based features** to improve outfit coherence  
-Better **cross-category generalization**
+- Uses **element-wise fusion (Hadamard product)** for fine-grained compatibility  
+- Incorporates **color-based features** to improve outfit coherence  
+- Better **cross-category generalization**
 
 #### Files:
 - Training: `polania-5000.py`  
 - Testing: `polania-5000test.py`
 
 #### Dataset:
-- **Polyvore Outfit Dataset (non-disjoint)** used 4000 curated outfit sets for training and a 1000 curated outfits for validation.
+- **Polyvore Outfit Dataset (non-disjoint)**  
+  - 4000 curated outfit sets for training  
+  - 1000 curated outfits for validation
 
 ---
 
@@ -117,7 +127,8 @@ Better **cross-category generalization**
 - Great for same-category alternatives (e.g., shirts similar to the query shirt)
 
 **Example Output:**
-![Similarity Search](images/similarity_output1.png)
+
+![Similarity Search](images/similarity_output1.png)  
 ![Similarity Search](images/similarity_output2.png)
 
 ---
@@ -127,9 +138,11 @@ Better **cross-category generalization**
 #### Compatibility MLP:
 - Learns binary compatibility from concatenated embeddings
 - Outputs a score indicating whether two items go together
+
 **Example Output:**
-![Compatibility Recommendation](images/compatibility_output1.png)
-![Compatibility Recommendation](images/compatibility_output2.png)
+
+![Compatibility MLP Output](images/compatibility_output1.png)  
+![Compatibility MLP Output](images/compatibility_output2.png)
 
 #### Siamese Compatibility (PolaniaNet):
 - Learns **cross-category compatibility**
@@ -137,6 +150,7 @@ Better **cross-category generalization**
 - Significantly outperforms basic MLP for outfit-level recommendations
 
 **Example Output:**
+
 ![Siamese Compatibility Output](images/Siamese_Compatiblity_Output.png)
 
 ---
@@ -150,9 +164,10 @@ The trained weights for both compatibility models are available for quick infere
 
 ---
 
-##Presentations:
-1-CompatibliyMLP & Similarity search: https://github.com/Lalwaniamisha789/Fashion__Compatibility_Recommender/blob/0fad2d1c3ff461d082908a89ec4f701e0cd8590c/Presented_by_TechBandus%5B1%5D.pptx_compressed.pdf
-2- PolaniaNet: https://github.com/Lalwaniamisha789/Fashion__Compatibility_Recommender/blob/0fad2d1c3ff461d082908a89ec4f701e0cd8590c/Ivory%20Black%20Simple%20Geometric%20Research%20Project%20Presentation.pdf
+## Presentations
+
+-  [CompatibilityMLP & Similarity Search (PDF)](https://github.com/Lalwaniamisha789/Fashion__Compatibility_Recommender/blob/0fad2d1c3ff461d082908a89ec4f701e0cd8590c/Presented_by_TechBandus%5B1%5D.pptx_compressed.pdf)
+-  [PolaniaNet – Siamese Compatibility Model (PDF)](https://github.com/Lalwaniamisha789/Fashion__Compatibility_Recommender/blob/0fad2d1c3ff461d082908a89ec4f701e0cd8590c/Ivory%20Black%20Simple%20Geometric%20Research%20Project%20Presentation.pdf)
 
 ---
 
