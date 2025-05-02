@@ -15,13 +15,16 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 ## Objective
 
 - Generate visually **similar items** using feature-based image comparison.
-- Recommend **complementary items** using a trained model for fashion compatibility.
+- Recommend **complementary items** using both:
+  - A trained CompatibilityMLP
+  - A **Siamese-based compatibility model** (PolaniaNet) inspired by academic research
 
 ---
 
 ## Dataset
 
-- **Name**: [Polyvore Outfit Dataset (non-disjoint)]([https://github.com/xthan/polyvore-dataset](https://www.kaggle.com/datasets/enisteper1/polyvore-outfit-dataset))
+- **Name**: [Polyvore Outfit Dataset (non-disjoint)](https://github.com/xthan/polyvore-dataset)
+- **Alternative Source**: [Kaggle Mirror](https://www.kaggle.com/datasets/enisteper1/polyvore-outfit-dataset)
 - **Files Used**: `train.json`, `test.json`
 - **Images**: `.jpg` files for each fashion item
 - **Outfit Format**: Each outfit is a curated group of items that go well together.
@@ -33,7 +36,10 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 - **Language**: Python
 - **Frameworks**: PyTorch, TorchVision
 - **Tools**: Kaggle Notebook, NumPy, OpenCV
-- **Model**: ResNet50 (pre-trained), CompatiblityMLP (Self-Trained)
+- **Models**:
+  - ResNet50 (pre-trained)
+  - CompatibilityMLP (Self-trained)
+  - PolaniaNet (Siamese compatibility model trained with 5000 outfit sets)
 - **Hardware**: 
   - CPU: Intel Core i7  
   - RAM: 16GB  
@@ -41,31 +47,68 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 
 ---
 
-## Similarity Search
+## 🔍 Similarity Search
 
 ### Steps:
 1. **Extract image features** using pre-trained **ResNet50**  
-2. **Generate embeddings**: 2048-dim vector for each image
-3. **Calculate cosine similarity** between query and dataset
+2. **Generate embeddings**: 2048-dim vector for each image  
+3. **Calculate cosine similarity** between query and dataset  
 4. **Return top-K visually similar items**
 
 ---
 
-## Compatibility Recommendation
+## 👠 Compatibility Recommendation
 
-### Steps:
-1. **Create triplets** from outfit data: `(anchor, positive, negative)`
-2. **Generate pairwise embeddings**
-3. **Train Compatibility MLP** using binary classification
+### 1. Compatibility MLP
 
-### Compatibility MLP Architecture:
+#### Steps:
+- Create triplets from outfit data: `(anchor, positive, negative)`
+- Generate pairwise embeddings
+- Train Compatibility MLP using binary classification
+
+#### MLP Architecture:
 - Input: Two 2048-d vectors → concatenate → 4096-d
 - Linear (4096 → 512) → ReLU  
 - Linear (512 → 1) → Sigmoid  
 - Output: Compatibility score (0–1)
 
 ---
-## Results
+
+### 2. Siamese Compatibility Network (PolaniaNet)
+
+#### Based on the Paper:
+**“Learning Fashion Compatibility Across Apparel Categories for Outfit Recommendation”**
+
+> This paper proposes a cross-category compatibility learning model using a Siamese network architecture, Hadamard product fusion, color histograms, and a Compatibility Scoring Network trained on curated outfit data.
+
+#### 3. PolaniNet Custom Implementation:
+-**Siamese-Merge Module**
+- Shared *VGC-16 encoder** to extract 512-d embeddings for each item
+- **Hadamard product** of embeddings is computed to capture element-wise interaction
+- **Color histograms** (8-bin per channel RGB, 24-d vector) are extracted and concatenated
+- Final vector: `[512 ⊙ 512] + [24 ⊙ 24] = `536-d`
+- Passed through a **Metric Network**:
+  - FC1(536->256) + BatchNorm + reLU + Dropout(0.5)  
+  - FC2(256->64) + BatchNorm + reLU + Dropout(0.5)
+  - FC3(64->1)  
+- **CustomMAP loss function**: combines Binary Cross-Entropy with three regularization terms: a Matrix-Normal Prior for structured weight regularization, CNN Sparsity Prior to enforce compact filter representations, and a Classifier Sparsity Prior to enhance feature selection—altogether encouraging generalization and interpretability in compatibility learning
+- Output: Compatibility score.
+
+#### Advantages Over Base MLP:
+✅ Uses **element-wise fusion (Hadamard product)** for fine-grained compatibility  
+✅ Incorporates **color-based features** to improve outfit coherence  
+✅ Better **cross-category generalization**
+
+#### Files:
+- Training: `polania-5000.py`  
+- Testing: `polania-5000test.py`
+
+#### Dataset:
+- **Polyvore Outfit Dataset (non-disjoint)** used 4000 curated outfit sets for training and a 1000 curated outfits for validation.
+
+---
+
+## ✅ Results
 
 ### Similarity Search:
 - Retrieves items that match visually in **color**, **texture**, and **style**
@@ -74,32 +117,37 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 **Example Output:**
 ![Similarity Search](images/similarity_output1.png)
 ![Similarity Search](images/similarity_output2.png)
-![Similarity Search](images/similarity_output3.png)
-![Similarity Search](images/similarity_output4.png)
-![Similarity Search](images/similarity_output5.png)
+
 ---
 
 ### Compatibility Recommendation:
-- Outputs complementary items (e.g., shoes for a dress)
-- Learns **cross-category compatibility** for coherent outfit generation
+
+#### Compatibility MLP:
+- Learns binary compatibility from concatenated embeddings
+- Outputs a score indicating whether two items go together
+
+#### Siamese Compatibility (PolaniaNet):
+- Learns **cross-category compatibility**
+- Incorporates both **deep features** and **color histograms**
+- Significantly outperforms basic MLP for outfit-level recommendations
 
 **Example Output:**
 ![Compatibility Recommendation](images/compatibility_output1.png)
 ![Compatibility Recommendation](images/compatibility_output2.png)
-![Compatibility Recommendation](images/compatibility_output3.png)
+![Siamese Compatibility Output](images/siamese_compatibility_output1.png)
 
 ---
 
-## Model Weights
+## 🧠 Model Weights
 
-The trained weights for our **Compatibility MLP** model for fast inference.
+The trained weights for both compatibility models are available for quick inference.
 
-- **File**: `compact_model.pt`  
-- **Location**: Stored in the `main/` directory of the repository
+- **Compatibility MLP File**: `compact_model.pt`  
+- **Siamese Compatibility Model Files**: [Kaggle Models – PolaniaNet 5000](https://www.kaggle.com/models/amishalalwani3110/polania_5000)
 
 ---
 
-### Loading Pretrained Model
+## 🛠 Loading Pretrained Compatibility MLP
 
 ```python
 from model import CompatibilityMLP 
@@ -113,4 +161,3 @@ compat_model.load_state_dict(torch.load("models/compact_model.pt", map_location=
 
 # Set model to evaluation mode
 compat_model.eval()
-
