@@ -47,7 +47,7 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 
 ---
 
-## 🔍 Similarity Search
+##  Similarity Search
 
 ### Steps:
 1. **Extract image features** using pre-trained **ResNet50**  
@@ -57,7 +57,7 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 
 ---
 
-## 👠 Compatibility Recommendation
+##  Compatibility Recommendation
 
 ### 1. Compatibility MLP
 
@@ -86,7 +86,7 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 - Shared *VGC-16 encoder** to extract 512-d embeddings for each item
 - **Hadamard product** of embeddings is computed to capture element-wise interaction
 - **Color histograms** (8-bin per channel RGB, 24-d vector) are extracted and concatenated
-- Final vector: `[512 ⊙ 512] + [24 ⊙ 24] = `536-d`
+- Final vector: `[512 ⊙ 512] + [24 ⊙ 24] = 536-d`
 - Passed through a **Metric Network**:
   - FC1(536->256) + BatchNorm + reLU + Dropout(0.5)  
   - FC2(256->64) + BatchNorm + reLU + Dropout(0.5)
@@ -95,9 +95,9 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 - Output: Compatibility score.
 
 #### Advantages Over Base MLP:
-✅ Uses **element-wise fusion (Hadamard product)** for fine-grained compatibility  
-✅ Incorporates **color-based features** to improve outfit coherence  
-✅ Better **cross-category generalization**
+Uses **element-wise fusion (Hadamard product)** for fine-grained compatibility  
+Incorporates **color-based features** to improve outfit coherence  
+Better **cross-category generalization**
 
 #### Files:
 - Training: `polania-5000.py`  
@@ -108,7 +108,7 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 
 ---
 
-## ✅ Results
+## Results
 
 ### Similarity Search:
 - Retrieves items that match visually in **color**, **texture**, and **style**
@@ -138,7 +138,7 @@ Fashion e-commerce platforms often struggle with providing style-aware recommend
 
 ---
 
-## 🧠 Model Weights
+## Model Weights
 
 The trained weights for both compatibility models are available for quick inference.
 
@@ -147,7 +147,7 @@ The trained weights for both compatibility models are available for quick infere
 
 ---
 
-## 🛠 Loading Pretrained Compatibility MLP
+## Loading Pretrained Compatibility MLP
 
 ```python
 from model import CompatibilityMLP 
